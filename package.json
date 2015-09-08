@@ -8,7 +8,11 @@
     "network-address": "^1.0.0"
   },
   "devDependencies": {
+    "standard": "^5.2.1",
     "tape": "^4.2.0"
+  },
+  "scripts": {
+    "test": "standard && tape test.js"
   },
   "repository": {
     "type": "git",
