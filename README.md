@@ -6,6 +6,8 @@ Network swarm that automagically discovers other peers on the network using mult
 npm install airswarm
 ```
 
+[![build status](http://img.shields.io/travis/mafintosh/airswarm.svg?style=flat)](http://travis-ci.org/mafintosh/airswarm)
+
 ## Usage
 
 ``` js
