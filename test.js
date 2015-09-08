@@ -1,5 +1,5 @@
 var tape = require('tape')
-var airswarm = require('airswarm')
+var airswarm = require('./')
 
 tape('connects', function (t) {
   t.plan(3)
