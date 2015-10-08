@@ -1,6 +1,6 @@
 {
   "name": "airswarm",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Network swarm that automagically discovers other peers on the network using multicast dns",
   "main": "index.js",
   "dependencies": {
