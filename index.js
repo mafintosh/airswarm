@@ -2,7 +2,11 @@ var multicastdns = require('multicast-dns')
 var net = require('net')
 var addr = require('network-address')
 
-module.exports = function airswarm (name, fn) {
+module.exports = function airswarm (name, opts, fn) {
+  if (typeof opts === 'function') return airswarm(name, null, opts)
+  if (!opts) opts = {}
+
+  var limit = opts.limit || Infinity
   var mdns = multicastdns()
   var connections = {}
 
@@ -16,6 +20,7 @@ module.exports = function airswarm (name, fn) {
   server.peers = []
 
   function track (sock) {
+    if (server.peers.length >= limit) return sock.destroy()
     server.peers.push(sock)
     sock.on('close', function () {
       server.peers.splice(server.peers.indexOf(sock), 1)
@@ -63,7 +68,7 @@ module.exports = function airswarm (name, fn) {
     }
 
     function update () {
-      mdns.query([{name: name, type: 'SRV'}])
+      if (server.peers.length < limit) mdns.query([{name: name, type: 'SRV'}])
     }
 
     function connect (host, port) {

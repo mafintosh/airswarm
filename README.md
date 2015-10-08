@@ -24,16 +24,24 @@ the swarms should start connecting to each other and write hello world
 
 ## API
 
-#### `swarm = airswarm(name, [onpeer])`
+#### `swarm = airswarm(name, [options], [onpeer])`
 
 Create a new swarm. The `swarm` will emit `peer` everytime a new peer
 is connected. Optionally you can pass a `peer` listener as the second argument.
 
 The `peer` will be a tcp stream to another swarm.
 
+Options include
+
+``` js
+{
+  limit: maxPeersToConnectTo // defaults to Infinity
+}
+```
+
 #### `swarm.peers`
 
-An array containing all the currently the connected peers
+An array containing all the currently connected peers
 
 ## License
 
