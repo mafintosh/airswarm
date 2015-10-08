@@ -31,6 +31,10 @@ is connected. Optionally you can pass a `peer` listener as the second argument.
 
 The `peer` will be a tcp stream to another swarm.
 
+#### `swarm.peers`
+
+An array containing all the currently the connected peers
+
 ## License
 
 MIT

@@ -7,8 +7,21 @@ module.exports = function airswarm (name, fn) {
   var connections = {}
 
   var server = net.createServer(function (sock) {
-    server.emit('peer', sock)
+    sock.on('error', function (err) {
+      sock.destroy(err)
+    })
+    track(sock)
   })
+
+  server.peers = []
+
+  function track (sock) {
+    server.peers.push(sock)
+    sock.on('close', function () {
+      server.peers.splice(server.peers.indexOf(sock), 1)
+    })
+    server.emit('peer', sock)
+  }
 
   server.on('listening', function () {
     var host = addr()
@@ -69,7 +82,7 @@ module.exports = function airswarm (name, fn) {
         delete connections[remoteId]
       })
 
-      server.emit('peer', sock)
+      track(sock)
     }
   })
 
