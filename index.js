@@ -10,6 +10,9 @@ module.exports = function airswarm (name, opts, fn) {
   var delay = opts.delay || 3000
   var mdns = multicastdns()
   var connections = {}
+  var timeout = null
+
+  if (typeof delay === 'number') delay = [delay, delay]
 
   var server = net.createServer(function (sock) {
     sock.on('error', function (err) {
@@ -35,6 +38,7 @@ module.exports = function airswarm (name, opts, fn) {
     var id = host + ':' + port
 
     mdns.on('query', function (q) {
+      schedule()
       for (var i = 0; i < q.questions.length; i++) {
         var qs = q.questions[i]
         if (qs.name === name && qs.type === 'SRV') return respond()
@@ -49,10 +53,9 @@ module.exports = function airswarm (name, opts, fn) {
     })
 
     update()
-    var interval = setInterval(update, delay)
 
     server.on('close', function () {
-      clearInterval(interval)
+      clearTimeout(timeout)
       mdns.destroy()
     })
 
@@ -70,7 +73,13 @@ module.exports = function airswarm (name, opts, fn) {
     }
 
     function update () {
+      schedule()
       if (server.peers.length < limit) mdns.query([{name: name, type: 'SRV'}])
+    }
+
+    function schedule () {
+      if (timeout !== null) clearTimeout(timeout)
+      timeout = setTimeout(update, delay[0] + Math.random() * (delay[1] - delay[0]))
     }
 
     function connect (host, port) {
