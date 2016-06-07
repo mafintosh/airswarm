@@ -7,7 +7,7 @@ module.exports = function airswarm (name, opts, fn) {
   if (!opts) opts = {}
 
   var limit = opts.limit || Infinity
-  var delay = opts.delay || 3000
+  var delay = opts.delay || [50000, 70000]
   var mdns = multicastdns()
   var connections = {}
   var timeout = null
