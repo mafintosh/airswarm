@@ -7,6 +7,7 @@ module.exports = function airswarm (name, opts, fn) {
   if (!opts) opts = {}
 
   var limit = opts.limit || Infinity
+  var delay = opts.delay || 3000
   var mdns = multicastdns()
   var connections = {}
 
@@ -48,7 +49,7 @@ module.exports = function airswarm (name, opts, fn) {
     })
 
     update()
-    var interval = setInterval(update, 3000)
+    var interval = setInterval(update, delay)
 
     server.on('close', function () {
       clearInterval(interval)
