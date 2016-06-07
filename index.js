@@ -53,6 +53,7 @@ module.exports = function airswarm (name, opts, fn) {
 
     server.on('close', function () {
       clearInterval(interval)
+      mdns.destroy()
     })
 
     function respond () {
