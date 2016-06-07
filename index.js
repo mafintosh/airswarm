@@ -86,7 +86,7 @@ module.exports = function airswarm (name, opts, fn) {
       var remoteId = host + ':' + port
       if (remoteId === id) return
       if (connections[remoteId]) return
-      if (remoteId < id) return respond()
+      if (remoteId < id) return
 
       var sock = connections[remoteId] = net.connect(port, host)
 
